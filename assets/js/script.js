@@ -18,19 +18,19 @@ sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); }
 
 // testimonials variables
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
-const modalContainer = document.querySelector("[data-modal-container]");
-const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
-const overlay = document.querySelector("[data-overlay]");
+const modalContainer = document.querySelectorAll("[data-modal-container]");
+const modalCloseBtn = document.querySelectorAll("[data-modal-close-btn]");
+const overlay = document.querySelectorAll("[data-overlay]");
 
 // modal variable
-const modalImg = document.querySelector("[data-modal-img]");
-const modalTitle = document.querySelector("[data-modal-title]");
-const modalText = document.querySelector("[data-modal-text]");
+const modalImg = document.querySelectorAll("[data-modal-img]");
+const modalTitle = document.querySelectorAll("[data-modal-title]");
+const modalText = document.querySelectorAll("[data-modal-text]");
 
 // modal toggle function
-const testimonialsModalFunc = function () {
-  modalContainer.classList.toggle("active");
-  overlay.classList.toggle("active");
+const testimonialsModalFunc = function (index) {
+  modalContainer[index].classList.toggle("active");
+  overlay[index].classList.toggle("active");
 }
 
 // add click event to all modal items
@@ -38,20 +38,45 @@ for (let i = 0; i < testimonialsItem.length; i++) {
 
   testimonialsItem[i].addEventListener("click", function () {
 
-    modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
-    modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
-    modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
-    modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
-
-    testimonialsModalFunc();
+    modalImg[0].src = this.querySelector("[data-testimonials-avatar]").src;
+    modalImg[0].alt = this.querySelector("[data-testimonials-avatar]").alt;
+    modalTitle[0].innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
+    modalText[0].innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
+    testimonialsModalFunc(0);
 
   });
 
 }
 
+let projectItem = document.querySelectorAll(".project-item");
+for(let i = 0; i < projectItem.length; i++){
+  projectItem[i].onclick = ()=>{
+    modalTitle[1].style.marginTop = "10px";
+    modalTitle[1].innerHTML = document.querySelectorAll(".project-title")[i].innerHTML;
+    modalText[1].innerHTML = document.querySelectorAll(".project-category")[i].innerHTML;
+    modalImg[1].src = document.querySelectorAll(".project-img")[i].children[1].src;
+    modalImg[1].alt = document.querySelectorAll(".project-img")[i].children[1].alt;
+    testimonialsModalFunc(1);
+  }
+}
+
+let blogPostItem = document.querySelectorAll(".blog-post-item");
+for(let i = 0; i < blogPostItem.length; i++){
+  blogPostItem[i].onclick = ()=>{
+    modalTitle[2].innerHTML = document.querySelectorAll(".blog-item-title")[i].innerHTML;
+    modalText[2].innerHTML = document.querySelectorAll(".blog-text")[i].innerHTML;
+    modalImg[2].src = document.querySelectorAll(".blog-banner-box")[i].children[0].src;
+    modalImg[2].alt = document.querySelectorAll(".blog-banner-box")[i].children[0].alt;
+    testimonialsModalFunc(2);
+  }
+}
+
 // add click event to modal close button
-modalCloseBtn.addEventListener("click", testimonialsModalFunc);
-overlay.addEventListener("click", testimonialsModalFunc);
+for(let i = 0; i < modalCloseBtn.length; i++){
+  modalCloseBtn[i].addEventListener("click", ()=>{testimonialsModalFunc(i)});
+  overlay[i].addEventListener("click", ()=>{testimonialsModalFunc(i)});
+}
+
 
 
 
@@ -157,3 +182,5 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+
