@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directory Listing</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; padding: 20px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 5px 0; }
+        a { text-decoration: none; color: #0366d6; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Index of <span id="current-path"></span></h1>
+    <ul id="file-list"></ul>
+
+    <script>
+        // Function to fetch and display file list
+        async function loadFileList() {
+            const response = await fetch('.');
+            const text = await response.text();
+            const parser = new DOMParser();
+            const htmlDocument = parser.parseFromString(text, 'text/html');
+            const items = htmlDocument.querySelectorAll('a');
+            const fileList = document.getElementById('file-list');
+            const currentPath = document.getElementById('current-path');
+            
+            // Clear the list
+            fileList.innerHTML = '';
+            
+            // Get the current path from the URL
+            const path = window.location.pathname;
+            currentPath.textContent = path;
+            
+            // Iterate and add items to the list
+            items.forEach(item => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = item.href;
+                link.textContent = item.textContent;
+                li.appendChild(link);
+                fileList.appendChild(li);
+            });
+        }
+        
+        // Load the file list when the page loads
+        window.addEventListener('DOMContentLoaded', loadFileList);
+    </script>
+</body>
+</html>
